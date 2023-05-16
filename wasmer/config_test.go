@@ -16,11 +16,11 @@ func TestCompilerKind(t *testing.T) {
 
 func TestEngineKind(t *testing.T) {
 	assert.Equal(t, UNIVERSAL.String(), "universal")
-	assert.Equal(t, DYLIB.String(), "dylib")
+	// assert.Equal(t, DYLIB.String(), "dylib")
 
-	// Deprecated.
-	assert.Equal(t, JIT.String(), "universal")
-	assert.Equal(t, NATIVE.String(), "dylib")
+	// // Deprecated.
+	// assert.Equal(t, JIT.String(), "universal")
+	// assert.Equal(t, NATIVE.String(), "dylib")
 }
 
 func TestConfig(t *testing.T) {
@@ -104,7 +104,7 @@ func TestConfig_AllCombinations(t *testing.T) {
 	is_darwin := runtime.GOOS == "darwin"
 	//is_windows := runtime.GOOS == "windows"
 	has_universal := IsEngineAvailable(UNIVERSAL)
-	has_dylib := IsEngineAvailable(DYLIB)
+	//has_dylib := IsEngineAvailable(DYLIB)
 
 	if IsCompilerAvailable(CRANELIFT) {
 		// Cranelift with the Universal engine works everywhere
@@ -113,9 +113,9 @@ func TestConfig_AllCombinations(t *testing.T) {
 		}
 
 		// Cranelift with the Dylib engine works on Linux+Darwin/amd64.
-		if has_dylib && is_amd64 && (is_linux || is_darwin) {
-			configs = append(configs, Test{"Cranelift", "Dylib", NewConfig().UseCraneliftCompiler().UseDylibEngine()})
-		}
+		// if has_dylib && is_amd64 && (is_linux || is_darwin) {
+		// 	configs = append(configs, Test{"Cranelift", "Dylib", NewConfig().UseCraneliftCompiler().UseDylibEngine()})
+		// }
 	}
 
 	if IsCompilerAvailable(LLVM) {
@@ -125,9 +125,9 @@ func TestConfig_AllCombinations(t *testing.T) {
 		}
 
 		// LLVM with the Dylib engine works on Linux+Darwin/amd64+aarch64.
-		if has_dylib && (is_linux || is_darwin) {
-			configs = append(configs, Test{"LLVM", "Dylib", NewConfig().UseLLVMCompiler().UseDylibEngine()})
-		}
+		// if has_dylib && (is_linux || is_darwin) {
+		// 	configs = append(configs, Test{"LLVM", "Dylib", NewConfig().UseLLVMCompiler().UseDylibEngine()})
+		// }
 	}
 
 	if IsCompilerAvailable(SINGLEPASS) {

@@ -1,8 +1,9 @@
 package wasmer
 
 import (
-	"github.com/stretchr/testify/assert"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 func TestWasiVersion(t *testing.T) {
@@ -33,10 +34,10 @@ func TestWasiWithCapturedStdout(t *testing.T) {
 		Environment("X", "ZY").
 		MapDirectory("the_host_current_directory", ".").
 		CaptureStdout().
-		Finalize()
+		Finalize(store)
 	assert.NoError(t, err)
 
-	importObject, err := wasiEnv.GenerateImportObject(store, module)
+	importObject, err := wasiEnv.GenerateImportObject(module)
 
 	instance, err := NewInstance(module, importObject)
 	assert.NoError(t, err)

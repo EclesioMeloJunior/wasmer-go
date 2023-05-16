@@ -10,7 +10,7 @@ import (
 func main() {
 	wasmBytes, _ := ioutil.ReadFile("module.wasm")
 
-	store := wasmer.NewStore(wasmer.NewEngine())
+	store := wasmer.NewStore(wasmer.NewUniversalEngine())
 	module, _ := wasmer.NewModule(store, wasmBytes)
 
 	wasiEnv, _ := wasmer.NewWasiStateBuilder("wasi-program").
@@ -18,8 +18,9 @@ func main() {
 		// Argument("--foo").
 		// Environment("ABC", "DEF").
 		// MapDirectory("./", ".").
-		Finalize()
-	importObject, err := wasiEnv.GenerateImportObject(store, module)
+		Finalize(store)
+
+	importObject, err := wasiEnv.GenerateImportObject(module)
 	check(err)
 
 	instance, err := wasmer.NewInstance(module, importObject)
